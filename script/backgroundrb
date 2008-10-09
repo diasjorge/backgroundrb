@@ -26,8 +26,11 @@ require RAILS_HOME + "/config/environment"
 require "bdrb_job_queue"
 require "backgroundrb_server"
 
-PID_FILE = "#{RAILS_HOME}/tmp/pids/backgroundrb_#{BDRB_CONFIG[:backgroundrb][:port]}.pid"
-SERVER_LOGGER = "#{RAILS_HOME}/log/backgroundrb_debug_#{BDRB_CONFIG[:backgroundrb][:port]}.log"
+hostname = ENV['HOSTNAME'] ? "#{ENV['HOSTNAME']}_" : ""
+BDRB_CONFIG[:hostname] = hostname
+
+PID_FILE = "#{RAILS_HOME}/tmp/pids/backgroundrb_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.pid"
+SERVER_LOGGER = "#{RAILS_HOME}/log/backgroundrb_debug_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.log"
 
 daemon = BackgrounDRb::StartStop.new
 

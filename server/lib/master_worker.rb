@@ -9,7 +9,7 @@ module BackgrounDRb
       if @log_mode == :foreground
         @logger = ::Logger.new(STDOUT)
       else
-        @logger = ::Logger.new("#{RAILS_HOME}/log/backgroundrb_debug_#{BDRB_CONFIG[:backgroundrb][:port]}.log")
+        @logger = ::Logger.new("#{RAILS_HOME}/log/backgroundrb_debug_#{BDRB_CONFIG[:hostname]}#{BDRB_CONFIG[:backgroundrb][:port]}.log")
       end
     end
 
