@@ -19,7 +19,6 @@ BDRB_CONFIG = BackgrounDRb::Config.read_config("#{RAILS_HOME}/config/backgroundr
 
 if !(::Packet::WorkerRunner::WORKER_OPTIONS[:worker_env] == false)
   require RAILS_HOME + "/config/environment"
-  ActiveRecord::Base.allow_concurrency = true
 end
 require "backgroundrb_server"
 

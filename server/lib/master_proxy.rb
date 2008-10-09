@@ -124,7 +124,6 @@ module BackgrounDRb
       db_config_file = YAML.load(ERB.new(IO.read("#{RAILS_HOME}/config/database.yml")).result)
       run_env = ENV["RAILS_ENV"]
       ActiveRecord::Base.establish_connection(db_config_file[run_env])
-      ActiveRecord::Base.allow_concurrency = true
     end
 
     def check_for_ruby_version; RUBY_VERSION >= "1.8.5"; end
