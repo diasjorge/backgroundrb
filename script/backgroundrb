@@ -19,18 +19,15 @@ require "bdrb_config"
 require RAILS_HOME + "/config/boot"
 require "active_support"
 
-BackgrounDRb::Config.parse_cmd_options ARGV
-BDRB_CONFIG = BackgrounDRb::Config.read_config("#{RAILS_HOME}/config/backgroundrb.yml")
+options = BackgrounDRb::Config.parse_cmd_options ARGV
+BDRB_CONFIG = BackgrounDRb::Config.read_config(options[:config_file]||"#{RAILS_HOME}/config/backgroundrb.yml")
 
 require RAILS_HOME + "/config/environment"
 require "bdrb_job_queue"
 require "backgroundrb_server"
 
-hostname = ENV['HOSTNAME'] ? "#{ENV['HOSTNAME']}_" : ""
-BDRB_CONFIG[:hostname] = hostname
-
-PID_FILE = "#{RAILS_HOME}/tmp/pids/backgroundrb_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.pid"
-SERVER_LOGGER = "#{RAILS_HOME}/log/backgroundrb_debug_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.log"
+PID_FILE = "#{RAILS_HOME}/tmp/pids/backgroundrb_#{BDRB_CONFIG[:backgroundrb][:port]}.pid"
+SERVER_LOGGER = "#{RAILS_HOME}/log/backgroundrb_debug_#{BDRB_CONFIG[:backgroundrb][:port]}.log"
 
 daemon = BackgrounDRb::StartStop.new
 

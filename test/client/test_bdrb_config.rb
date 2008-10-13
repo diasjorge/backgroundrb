@@ -3,6 +3,7 @@ require File.join(File.dirname(__FILE__) + "/../bdrb_client_test_helper")
 
 context "For BackgrounDRb config" do
   conf_file = File.join(File.dirname(__FILE__),"backgroundrb.yml")
+
   specify "should setup correct environment from cmd options" do
     BackgrounDRb::Config.parse_cmd_options(["-e", "production"])
     BackgrounDRb::Config.read_config(conf_file)
@@ -10,6 +11,16 @@ context "For BackgrounDRb config" do
     RAILS_ENV.should == "production"
   end
 
+  specify "should load config file from cmd options" do
+    ENV["RAILS_ENV"] = nil
+    conf_file = File.join(File.dirname(__FILE__),"backgroundrb_alternative.yml")
+    options = BackgrounDRb::Config.parse_cmd_options(["-c",conf_file])
+    BackgrounDRb::Config.read_config(options[:config_file])
+    ENV["RAILS_ENV"].should == "development"
+    RAILS_ENV.should == "development"
+  end
+
+      
   specify "should setup correct environment from conf file" do
     ENV["RAILS_ENV"] = nil
     BackgrounDRb::Config.parse_cmd_options([])
@@ -17,4 +28,5 @@ context "For BackgrounDRb config" do
     ENV["RAILS_ENV"].should == "development"
     RAILS_ENV.should == "development"
   end
+
 end
