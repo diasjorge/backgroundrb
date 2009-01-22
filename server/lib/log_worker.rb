@@ -3,7 +3,11 @@ class LogWorker < Packet::Worker
   attr_accessor :log_file
   def worker_init
     hostname = ENV['HOSTNAME'] ? "#{ENV['HOSTNAME']}_" : ""
-    @log_file = Logger.new("#{RAILS_HOME}/log/backgroundrb_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.log")
+    if ENV['LOG_PATH']
+      @log_file = Logger.new("#{ENV['LOG_PATH']}/backgroundrb/backgroundrb_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.log")
+    else
+      @log_file = Logger.new("#{RAILS_HOME}/log/backgroundrb_#{hostname}#{BDRB_CONFIG[:backgroundrb][:port]}.log")
+    end
   end
 
   def receive_data p_data
