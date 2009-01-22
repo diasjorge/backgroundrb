@@ -3,13 +3,11 @@ module BackgrounDRb
     def kill_process arg_pid_file
       pid = nil
       pid = File.open(arg_pid_file, "r") { |pid_handle| pid_handle.gets.strip.chomp.to_i }
-      pgid =  Process.getpgid(pid)
       puts "Stopping BackgrounDRb with pid #{pid}...."
-      Process.kill('-TERM', pgid)
+      system("kill -s TERM #{pid}")
       File.delete(arg_pid_file) if File.exists?(arg_pid_file)
       puts "Success!"
     end
-
 
     def running?; File.exists?(PID_FILE); end
 
