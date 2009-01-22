@@ -19,8 +19,8 @@ require "bdrb_config"
 require RAILS_HOME + "/config/boot"
 require "active_support"
 
-BackgrounDRb::Config.parse_cmd_options ARGV
-BDRB_CONFIG = BackgrounDRb::Config.read_config("#{RAILS_HOME}/config/backgroundrb.yml")
+options = BackgrounDRb::Config.parse_cmd_options ARGV
+BDRB_CONFIG = BackgrounDRb::Config.read_config(options[:config_file]||"#{RAILS_HOME}/config/backgroundrb.yml")
 
 require RAILS_HOME + "/config/environment"
 require "bdrb_job_queue"

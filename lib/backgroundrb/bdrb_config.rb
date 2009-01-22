@@ -11,6 +11,10 @@ module BackgrounDRb
                 "Specifies the environment to operate under (test/development/production).",
                 "Default: development") { |v| options[:environment] = v }
         opts.separator ""
+        opts.on("-c", "--config=file", String, 
+                "Specifies the configuration file to use.",
+                "Default: config/background.yml") { |v| options[:config_file] = v }
+        opts.separator ""
         opts.on("-h", "--help",
                 "Show this help message.") { $stderr.puts opts; exit }
         opts.separator ""
@@ -19,6 +23,8 @@ module BackgrounDRb
       end.parse!(argv)
 
       ENV["RAILS_ENV"] = options[:environment] if options[:environment]
+
+      options
     end
 
     def self.read_config(config_file)
